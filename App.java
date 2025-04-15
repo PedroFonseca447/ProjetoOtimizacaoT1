@@ -1,0 +1,23 @@
+public class App {
+
+    public static void main ( String args []){
+
+        String[] S = {"buy Amazon", "buy Google", "buy Apple", "buy Google", "buy Google", "buy NVIDIA"};
+        String[] S_line = {"buy NVIDIA", "buy Apple"};
+        System.out.println(hasSubSequence(S, S_line)); // false
+
+    }
+
+    private static boolean hasSubSequence( String []S, String []sLine){
+       int j =0;
+
+       for(int i=0; i< S.length && j < sLine.length; i++){
+            if( S[i].equals(sLine[j]) ){
+                j++;
+            }
+       }
+       
+       
+        return j == sLine.length;
+    }
+}
