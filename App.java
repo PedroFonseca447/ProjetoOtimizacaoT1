@@ -3,7 +3,7 @@ public class App {
     public static void main ( String args []){
 
         String[] S = {"buy Amazon", "buy Google", "buy Apple", "buy Google", "buy Google", "buy NVIDIA"};
-        String[] S_line = {"buy NVIDIA", "buy Apple"};
+        String[] S_line = {"buy Amazon", "buy Apple","buy Apple","buy Google","buy Google","buy Google"};
         System.out.println(hasSubSequence(S, S_line)); // false
 
     }
