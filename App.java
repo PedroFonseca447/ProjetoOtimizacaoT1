@@ -7,16 +7,19 @@ public class App {
         System.out.println(hasSubSequence(S, S_line)); // false
 
     }
-
+    //notação O(n)
     private static boolean hasSubSequence( String []S, String []sLine){
-       int j =0;
+
+        if(S.length == 0 || sLine.length == 0){
+            return false;
+        }
+             int j =0;
 
        for(int i=0; i< S.length && j < sLine.length; i++){
             if( S[i].equals(sLine[j]) ){
                 j++;
             }
        }
-       
        
         return j == sLine.length;
     }
