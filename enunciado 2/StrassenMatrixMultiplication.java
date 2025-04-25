@@ -5,16 +5,16 @@ public class StrassenMatrixMultiplication {
 
         // Ajusta o tamanho para potência de 2
         int size = nextPowerOfTwo(n);
-        int[][] newA = new int[size][size];
-        int[][] newB = new int[size][size];
+        int[][] pivoA = new int[size][size];
+        int[][] pivoB = new int[size][size];
 
         // Copia A e B para matrizes maiores com padding de zeros
-        for (int i = 0; i < n; i++) {
-            System.arraycopy(A[i], 0, newA[i], 0, n);
-            System.arraycopy(B[i], 0, newB[i], 0, n);
+        for (int i = 0; i < n; i++) {// 
+            System.arraycopy(A[i], 0, pivoA[i], 0, n);
+            System.arraycopy(B[i], 0, pivoB[i], 0, n);
         }
 
-        int[][] result = strassen(newA, newB);
+        int[][] result = strassen(pivoA, pivoB);
 
         // Remove padding e retorna resultado final n x n
         int[][] finalResult = new int[n][n];
@@ -28,11 +28,12 @@ public class StrassenMatrixMultiplication {
     private int[][] strassen(int[][] A, int[][] B) {
         int n = A.length;
         int[][] result = new int[n][n];
+        //caso vetor a venha vazio
+        if(n == 0){
+            return null;
+        }
 
-        if (n == 1) { //usando os indices, podemos levar uma vantagem de tempo
-            //para esse caso melhora(na analise asintótica nao interfere em nada)
-            //o uso das particoes sem copiar as entradas nos ofereçe uma execução
-            //constante
+        if (n == 1) { //caso result venha com um unico elemento
             result[0][0] = A[0][0] * B[0][0];
             return result;
         }
@@ -67,15 +68,16 @@ public class StrassenMatrixMultiplication {
         int[][] M5 = strassen(add(a11, a12), b22);
         int[][] M6 = strassen(subtract(a21, a11), add(b11, b12));
         int[][] M7 = strassen(subtract(a12, a22), add(b21, b22));
-        //calcule as subematrizes desejadas ,a cionando e subtraindo
-     //´varias combinações das matrizes
-        // Calcula blocos C
+        //calcula as submatrizes 
+        
+
+        //monta a matriz C com as submatrizes M1 até M7
         int[][] c11 = add(subtract(add(M1, M4), M5), M7);
         int[][] c12 = add(M3, M5);
         int[][] c21 = add(M2, M4);
         int[][] c22 = add(subtract(add(M1, M3), M2), M6);
 
-        // Junta os blocos
+            // junta os blocos formados para a matriz C
         join(c11, result, 0, 0);
         join(c12, result, 0, newSize);
         join(c21, result, newSize, 0);
@@ -84,7 +86,7 @@ public class StrassenMatrixMultiplication {
         return result;
     }
 
-    // Utilitários: soma, subtração, divisão e junção
+    // Apoiadores: soma, 
     private int[][] add(int[][] A, int[][] B) {
         int n = A.length;
         int[][] result = new int[n][n];
@@ -93,7 +95,7 @@ public class StrassenMatrixMultiplication {
                 result[i][j] = A[i][j] + B[i][j];
         return result;
     }
-
+    //operacao de subtracao no strassen
     private int[][] subtract(int[][] A, int[][] B) {
         int n = A.length;
         int[][] result = new int[n][n];
@@ -102,7 +104,7 @@ public class StrassenMatrixMultiplication {
                 result[i][j] = A[i][j] - B[i][j];
         return result;
     }
-
+   //quem quebra as matrizes em submatrizes
     private void split(int[][] parent, int[][] child, int row, int col) {
         for (int i = 0; i < child.length; i++)
             System.arraycopy(parent[i + row], col, child[i], 0, child.length);
@@ -112,7 +114,7 @@ public class StrassenMatrixMultiplication {
         for (int i = 0; i < child.length; i++)
             System.arraycopy(child[i], 0, parent[i + row], col, child.length);
     }
-
+    //metodo que da um padding na lista caso uma das matrizes seja impar
     private int nextPowerOfTwo(int n) {
         int power = 1;
         while (power < n)
